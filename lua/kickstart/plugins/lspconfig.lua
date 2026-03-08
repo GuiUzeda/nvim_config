@@ -83,6 +83,9 @@ return {
           -- Find references for the word under your cursor.
           map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
 
+          -- Find usages (references) for the word under your cursor.
+          map('gru', require('telescope.builtin').lsp_references, '[G]oto [U]sages')
+
           -- Jump to the implementation of the word under your cursor.
           --  Useful when your language has ways of declaring types without an actual implementation.
           map('gri', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
@@ -108,6 +111,51 @@ return {
           --  Useful when you're not sure what type a variable is and you want to see
           --  the definition of its *type*, not where it was *defined*.
           map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
+
+          -- Select Python virtual environment
+          map('grv', function()
+            local clients = vim.lsp.get_clients { name = 'basedpyright', bufnr = event.buf }
+            local client = clients[1]
+            if not client then
+              vim.notify('Basedpyright not attached to this buffer', vim.log.levels.WARN)
+              return
+            end
+
+            local root = client.config.root_dir
+            local found = vim.fs.find({ '.venv', 'venv' }, {
+              path = root,
+              type = 'directory',
+              limit = math.huge,
+            })
+
+            if #found == 0 then
+              vim.notify('No virtual environments found in ' .. root, vim.log.levels.INFO)
+              return
+            end
+
+            vim.ui.select(found, {
+              prompt = 'Select Python Virtual Environment',
+              format_item = function(item)
+                return item:gsub(root .. '/', '')
+              end,
+            }, function(choice)
+              if choice then
+                local python_path = choice .. '/bin/python'
+                local venv_path = vim.fn.fnamemodify(choice, ':h')
+                local venv_name = vim.fn.fnamemodify(choice, ':t')
+
+                client.config.settings.python = client.config.settings.python or {}
+                client.config.settings.python.pythonPath = python_path
+
+                client.config.settings.basedpyright = client.config.settings.basedpyright or {}
+                client.config.settings.basedpyright.venvPath = venv_path
+                client.config.settings.basedpyright.venv = venv_name
+
+                vim.notify('Setting venv to ' .. choice .. ' and restarting LSP...', vim.log.levels.INFO)
+                vim.cmd 'LspRestart basedpyright'
+              end
+            end)
+          end, '[G]oto [V]env Selection')
 
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
@@ -209,8 +257,75 @@ return {
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd = {},
-        -- gopls = {},
-        -- pyright = {},
+        -- 2. Força o LSP a anexar considerando a pasta tracking como raiz global
+        gopls = {
+          settings = {
+            gopls = {
+              analyses = {
+                unusedparams = true,
+              },
+              staticcheck = true,
+              gofumpt = true,
+              hints = {
+                assignVariableTypes = true,
+                compositeLiteralFields = true,
+                compositeLiteralTypes = true,
+                constantValues = true,
+                functionTypeParameters = true,
+                parameterNames = true,
+                rangeVariableTypes = true,
+              },
+            },
+          },
+        },
+        basedpyright = {
+          settings = {
+            basedpyright = {
+              analysis = {
+                autoSearchPaths = true,
+                diagnosticMode = 'openFilesOnly',
+                useLibraryCodeForTypes = true,
+                typeCheckingMode = 'recommended',
+              },
+            },
+            python = {
+              analysis = {
+                indexing = true,
+                userFileWatching = true,
+              },
+            },
+          },
+          root_dir = function(fname)
+            local util = require 'lspconfig.util'
+            local root = util.root_pattern('pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', 'pipfile', 'pyrightconfig.json', '.git')(fname)
+            if root then
+              return root
+            end
+            return util.find_git_ancestor(fname) or util.path.dirname(fname)
+          end,
+          before_init = function(_, config)
+            -- Search upwards from the current file's directory to find the closest venv
+            local file_dir = vim.fn.expand '%:p:h'
+            local venv = vim.fs.find({ '.venv', 'venv' }, {
+              path = file_dir,
+              upward = true,
+              type = 'directory',
+            })[1]
+
+            if venv then
+              local python_path = venv .. '/bin/python'
+              local venv_path = vim.fn.fnamemodify(venv, ':h')
+              local venv_name = vim.fn.fnamemodify(venv, ':t')
+
+              config.settings.python = config.settings.python or {}
+              config.settings.python.pythonPath = python_path
+
+              config.settings.basedpyright = config.settings.basedpyright or {}
+              config.settings.basedpyright.venvPath = venv_path
+              config.settings.basedpyright.venv = venv_name
+            end
+          end,
+        },
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -223,6 +338,7 @@ return {
             disableSuggestions = true,
           },
         } },
+        sqls = {},
         eslint = {
           on_attach = function(client, bufnr)
             vim.api.nvim_create_autocmd('BufWritePre', {
@@ -243,6 +359,9 @@ return {
             },
           },
         },
+        dockerls = {},
+        docker_compose_language_service = {},
+        -- ts_ls = { ... },
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
@@ -288,6 +407,14 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'tree-sitter-cli',
+        'goimports',
+        'gofumpt',
+        'isort',
+        'black',
+        'ruff',
+        'prettierd',
+        'markdownlint',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -305,6 +432,32 @@ return {
           end,
         },
       }
+      -- Configuração Nativa do Neovim 0.11 para o Beancount
+      vim.lsp.config('beancount', {
+        cmd = { 'beancount-language-server', '--stdio' },
+        filetypes = { 'beancount', 'bean' },
+        -- Trava a raiz do projeto de forma inquestionável
+        root_dir = vim.fn.expand '~/tracking',
+        init_options = {
+          -- Caminho absoluto para a árvore de contas
+          journal_file = vim.fn.expand '~/tracking/main.beancount',
+          formatting = {
+            prefix_width = 30,
+            num_width = 10,
+            currency_column = 60,
+            account_amount_spacing = 2,
+            number_currency_spacing = 1,
+          },
+          diagnostic_flags = { '!' },
+          bean_check = {
+            method = 'python-embedded',
+          },
+        },
+        capabilities = capabilities,
+      })
+
+      -- Habilita o servidor
+      vim.lsp.enable 'beancount'
     end,
   },
 }
