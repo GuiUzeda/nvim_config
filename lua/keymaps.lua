@@ -5,7 +5,63 @@
 vim.keymap.set('n', '<leader>on', '<cmd>ObsidianQuickSwitch<cr>', { desc = '[O]bsidian [N]otes (Switch)' })
 vim.keymap.set('n', '<leader>os', '<cmd>ObsidianSearch<cr>', { desc = '[O]bsidian [S]earch' })
 vim.keymap.set('n', '<leader>ot', '<cmd>ObsidianToday<cr>', { desc = '[O]bsidian [T]oday' })
-vim.keymap.set('n', '<leader>ow', '<cmd>ObsidianNew<cr>', { desc = '[O]bsidian Ne[W] Note' })
+vim.keymap.set('n', '<leader>ow', function()
+  local vault_path = vim.fn.expand('~/Notes')
+
+  vim.ui.input({ prompt = 'Note Title: ' }, function(title)
+    if not title or title == '' then return end
+
+    local scan = require('plenary.scandir')
+    local dirs = scan.scan_dir(vault_path, { hidden = false, only_dirs = true })
+    
+    local folder_opts = { '/' }
+    for _, dir in ipairs(dirs) do
+      local rel_path = dir:sub(#vault_path + 2)
+      table.insert(folder_opts, rel_path)
+    end
+    table.insert(folder_opts, '+ Create New Folder')
+
+    vim.ui.select(folder_opts, { prompt = 'Select Directory:' }, function(folder)
+      if not folder then return end
+
+      local function next_step(chosen_folder)
+        local template_dir = vim.fn.stdpath('config') .. '/obsidian_templates'
+        local templates = { 'None' }
+        local tmpl_files = scan.scan_dir(template_dir, { hidden = false, depth = 1 })
+        for _, tmpl in ipairs(tmpl_files) do
+          table.insert(templates, vim.fn.fnamemodify(tmpl, ':t'))
+        end
+
+        vim.ui.select(templates, { prompt = 'Select Template:' }, function(template)
+          if not template then return end
+
+          local full_path_arg = title
+          if chosen_folder ~= '/' then
+            full_path_arg = chosen_folder .. '/' .. title
+          end
+
+          vim.cmd('ObsidianNew ' .. full_path_arg)
+          
+          if template ~= 'None' then
+            vim.defer_fn(function()
+              vim.cmd('ObsidianTemplate ' .. template)
+            end, 200)
+          end
+        end)
+      end
+
+      if folder == '+ Create New Folder' then
+        vim.ui.input({ prompt = 'New Folder Name (e.g. 01_Projects/NewApp): ' }, function(new_folder)
+          if not new_folder or new_folder == '' then return end
+          vim.fn.mkdir(vault_path .. '/' .. new_folder, 'p')
+          next_step(new_folder)
+        end)
+      else
+        next_step(folder)
+      end
+    end)
+  end)
+end, { desc = '[O]bsidian Ne[W] Note (Advanced)' })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
