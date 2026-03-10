@@ -1,5 +1,5 @@
 return {
-  'schrieveslaach/sonarlint.nvim',
+  'https://gitlab.com/schrieveslaach/sonarlint.nvim',
   dependencies = {
     'neovim/nvim-lspconfig',
     'lewis6991/gitsigns.nvim', -- Optional: Required for SCM/Connected Mode features
