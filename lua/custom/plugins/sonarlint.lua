@@ -6,8 +6,7 @@ return {
   },
   config = function()
     -- Determine the path to the mason installation directory
-    local mason_registry = require 'mason-registry'
-    local mason_root = mason_registry.get_prefix()
+    local mason_root = vim.fn.stdpath('data') .. '/mason'
     
     require('sonarlint').setup {
       server = {
