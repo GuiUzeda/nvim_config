@@ -1,6 +1,12 @@
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+-- Obsidian keymaps for fast notes access
+vim.keymap.set('n', '<leader>on', '<cmd>ObsidianQuickSwitch<cr>', { desc = '[O]bsidian [N]otes (Switch)' })
+vim.keymap.set('n', '<leader>os', '<cmd>ObsidianSearch<cr>', { desc = '[O]bsidian [S]earch' })
+vim.keymap.set('n', '<leader>ot', '<cmd>ObsidianToday<cr>', { desc = '[O]bsidian [T]oday' })
+vim.keymap.set('n', '<leader>ow', '<cmd>ObsidianNew<cr>', { desc = '[O]bsidian Ne[W] Note' })
+
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
