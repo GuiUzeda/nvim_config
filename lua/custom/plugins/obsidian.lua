@@ -49,5 +49,19 @@ return {
       -- A map for custom variables, the key should be the variable and the value a function
       substitutions = {},
     },
+
+    -- Customize how note IDs are generated given a title.
+    note_id_func = function(title)
+      local id = tostring(os.time()) .. "-"
+      for _ = 1, 4 do
+        id = id .. string.char(math.random(65, 90))
+      end
+      if title ~= nil then
+        -- Format: {random_obsidian_id}:{title_i_inputed_with_underscores}
+        return id .. ":" .. title:gsub(" ", "_")
+      else
+        return id
+      end
+    end,
   },
 }
