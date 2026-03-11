@@ -59,15 +59,12 @@ return {
 
     -- Customize how note IDs are generated given a title.
     note_id_func = function(title)
-      local id = tostring(os.time()) .. "-"
-      for _ = 1, 4 do
-        id = id .. string.char(math.random(65, 90))
-      end
       if title ~= nil then
-        -- Format: {random_obsidian_id}:{title_i_inputed_with_underscores}
-        return id .. ":" .. title:gsub(" ", "_")
+        -- Return the exact title as the filename
+        return title
       else
-        return id
+        -- If no title is given, fallback to a simple timestamp
+        return tostring(os.time())
       end
     end,
   },
