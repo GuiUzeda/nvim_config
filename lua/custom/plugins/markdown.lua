@@ -5,6 +5,13 @@ return {
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {
+      checkbox = {
+        custom = {
+          in_progress = { raw = '[~]', rendered = '󰪯 ', highlight = 'RenderMarkdownWarn', scope_highlight = nil },
+          important = { raw = '[!]', rendered = ' ', highlight = 'RenderMarkdownError', scope_highlight = nil },
+          forwarded = { raw = '[>]', rendered = ' ', highlight = 'RenderMarkdownInfo', scope_highlight = nil },
+        },
+      },
       pipe_table = {
         enabled = true,
         -- 'raw' replaces only the '|' characters in each row, leaving the cells unmodified.
