@@ -69,6 +69,7 @@ vim.keymap.set('n', '<leader>ow', function()
             full_path_arg = chosen_folder .. '/' .. title
           end
 
+          vim.g.obsidian_current_title = title
           vim.cmd('ObsidianNew ' .. full_path_arg)
 
           if template ~= 'None' then
@@ -76,7 +77,12 @@ vim.keymap.set('n', '<leader>ow', function()
               -- Clear the buffer completely to avoid duplicating frontmatter and titles
               vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
               vim.cmd('ObsidianTemplate ' .. template)
+              vim.defer_fn(function()
+                vim.g.obsidian_current_title = nil
+              end, 100)
             end, 200)
+          else
+            vim.g.obsidian_current_title = nil
           end
         end)
       end

@@ -47,7 +47,14 @@ return {
       date_format = "%Y-%m-%d",
       time_format = "%H:%M",
       -- A map for custom variables, the key should be the variable and the value a function
-      substitutions = {},
+      substitutions = {
+        title = function()
+          if vim.g.obsidian_current_title then
+            return vim.g.obsidian_current_title
+          end
+          return "Untitled"
+        end,
+      },
     },
 
     -- Customize how note IDs are generated given a title.

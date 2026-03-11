@@ -9,8 +9,8 @@ vim.o.number = true
 --  Experiment for yourself to see if you like it!
 -- vim.o.relativenumber = true
 
--- Enable mouse mode, can be useful for resizing splits for example!
--- vim.o.mouse = 'a'
+-- Disable mouse mode
+vim.o.mouse = ''
 
 -- Don't show the mode, since it's already in the status line
 vim.o.showmode = false
@@ -75,5 +75,11 @@ vim.opt.termguicolors = true
 
 -- Set conceallevel to 2 for obsidian.nvim to hide markdown syntax like checkboxes
 vim.opt.conceallevel = 2
+
+-- Enable Treesitter folding (folds on markdown headers, code blocks, etc.)
+vim.o.foldmethod = 'expr'
+vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.o.foldtext = 'v:lua.vim.treesitter.foldtext()'
+vim.o.foldlevel = 99 -- Start with everything unfolded
 
 -- vim: ts=2 sts=2 sw=2 et
