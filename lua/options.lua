@@ -82,4 +82,12 @@ vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.o.foldtext = 'v:lua.vim.treesitter.foldtext()'
 vim.o.foldlevel = 99 -- Start with everything unfolded
 
+-- Disable wrapping in Markdown files to prevent long tables from visually breaking
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'markdown', 'md' },
+  callback = function()
+    vim.opt_local.wrap = false
+  end,
+})
+
 -- vim: ts=2 sts=2 sw=2 et

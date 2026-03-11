@@ -6,9 +6,11 @@ return {
     ---@type render.md.UserConfig
     opts = {
       pipe_table = {
-        -- Disable table rendering because tree-sitter-markdown sees the `\|` inside
-        -- Obsidian links as a column separator, breaking the table structure completely.
-        enabled = false,
+        enabled = true,
+        -- 'raw' replaces only the '|' characters in each row, leaving the cells unmodified.
+        -- This is much more resilient to Neovim line wrapping and tree-sitter parsing errors
+        -- (like the `\|` in Obsidian links) than 'padded' or 'overlay'.
+        cell = 'raw',
       },
     },
   },
