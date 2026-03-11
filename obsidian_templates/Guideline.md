@@ -1,7 +1,13 @@
 ---
-tags: [guideline, docs]
+id: {{id}}
+aliases:
+  - {{title}}
+tags:
+  - guideline
+  - docs
 last_updated: {{date}}
 ---
+
 # {{title}}
 
 ## 📋 Summary

@@ -1,8 +1,13 @@
 ---
+id: {{id}}
+aliases:
+  - {{title}}
+tags:
+  - task
 status: to-do
 url: 
-tags: [task]
 ---
+
 # {{title}}
 
 ## 🎯 Objective

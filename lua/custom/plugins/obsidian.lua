@@ -26,7 +26,7 @@ return {
     },
     
     ui = {
-        enable = true,
+        enable = false,
     },
     
     daily_notes = {

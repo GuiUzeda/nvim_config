@@ -1,7 +1,12 @@
 ---
-tags: [meeting]
+id: {{id}}
+aliases:
+  - {{title}}
+tags:
+  - meeting
 attendees: 
 ---
+
 # {{title}}
 
 ## 📋 Agenda
