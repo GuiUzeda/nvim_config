@@ -6,9 +6,9 @@ return {
     ---@type render.md.UserConfig
     opts = {
       pipe_table = {
-        -- 'overlay' writes completely over the table, removing conceal behavior and highlights
-        -- inside the table cells. This guarantees perfect table borders regardless of bold/italic conceal.
-        cell = 'overlay',
+        -- Disable table rendering because tree-sitter-markdown sees the `\|` inside
+        -- Obsidian links as a column separator, breaking the table structure completely.
+        enabled = false,
       },
     },
   },
