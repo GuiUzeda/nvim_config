@@ -9,6 +9,10 @@ return {
     vim.keymap.set('n', '<C-j>', ss.move_cursor_down, { desc = 'Move Down' })
     vim.keymap.set('n', '<C-k>', ss.move_cursor_up, { desc = 'Move Up' })
     vim.keymap.set('n', '<C-l>', ss.move_cursor_right, { desc = 'Move Right' })
+    vim.keymap.set('t', '<C-h>', ss.move_cursor_left, { desc = 'Move Left' })
+    vim.keymap.set('t', '<C-j>', ss.move_cursor_down, { desc = 'Move Down' })
+    vim.keymap.set('t', '<C-k>', ss.move_cursor_up, { desc = 'Move Up' })
+    vim.keymap.set('t', '<C-l>', ss.move_cursor_right, { desc = 'Move Right' })
 
     -- Resize mode (Alt + h/j/k/l)
     vim.keymap.set('n', '<M-h>', ss.resize_left, { desc = 'Resize Left' })
@@ -18,7 +22,7 @@ return {
 
     ss.setup {
       move_cursor_same_row = false,
-      multiplexer_integration = 'wezterm',
+      multiplexer_integration = 'tmux',
       at_edge = function(ctx)
         if vim.env.DESKTOP_SESSION == 'awesome' then
           local awesome_dir = ({ left = 'left', down = 'down', up = 'up', right = 'right' })[ctx.direction]

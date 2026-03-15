@@ -20,8 +20,6 @@ return {
         opts = {},
       },
       'folke/lazydev.nvim',
-
-      'olimorris/codecompanion.nvim',
     },
     --- @module 'blink.cmp'
     --- @type blink.cmp.Config
@@ -37,23 +35,14 @@ return {
 
       completion = {
         documentation = { auto_show = false, auto_show_delay_ms = 500 },
-        ghost_text = { enabled = true },
+        ghost_text = { enabled = false },
       },
 
       sources = {
-        default = { 'codecompanion', 'lsp', 'path', 'snippets', 'lazydev', 'omni' },
+        default = { 'lsp', 'path', 'snippets', 'lazydev', 'omni' },
 
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
-
-          codecompanion = {
-            name = 'CodeCompanion',
-            module = 'codecompanion.providers.completion.blink',
-            enabled = true,
-            score_offset = 1000,
-            async = true,
-            min_keyword_length = 0,
-          },
         },
       },
 

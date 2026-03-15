@@ -23,6 +23,24 @@ return {
     },
     event_handlers = {
       {
+        event = 'file_opened',
+        handler = function()
+          -- Close neo-tree when a file is opened
+          require('neo-tree.command').execute { action = 'close' }
+        end,
+      },
+      {
+        event = 'neo_tree_window_after_open',
+        handler = function()
+          vim.api.nvim_create_autocmd('WinLeave', {
+            once = true,
+            callback = function()
+              vim.cmd 'Neotree close'
+            end,
+          })
+        end,
+      },
+      {
         event = 'file_renamed',
         handler = function(args)
           local client = vim.lsp.get_clients({ name = 'basedpyright' })[1]

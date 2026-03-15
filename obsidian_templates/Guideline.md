@@ -1,17 +1,20 @@
 ---
-id: {{id}}
+id: { { id } }
 aliases:
-  - {{title}}
+  - { { title } }
 tags:
   - guideline
   - docs
-last_updated: {{date}}
+last_updated: { { date } }
 ---
 
 # {{title}}
 
 ## 📋 Summary
-- 
+
+-
 
 ## 📖 Details
-- 
+
+-
+

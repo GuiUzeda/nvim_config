@@ -73,6 +73,7 @@ vim.o.confirm = true
 
 vim.opt.termguicolors = true
 
+
 -- Set conceallevel to 2 for obsidian.nvim to hide markdown syntax like checkboxes
 vim.opt.conceallevel = 2
 

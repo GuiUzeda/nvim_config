@@ -121,7 +121,7 @@ return {
               return
             end
 
-            local root = client.config.root_dir
+            local root = client.config.root_dir or vim.fn.getcwd()
             local found = vim.fs.find({ '.venv', 'venv' }, {
               path = root,
               type = 'directory',
@@ -339,14 +339,7 @@ return {
           },
         } },
         sqls = {},
-        eslint = {
-          on_attach = function(client, bufnr)
-            vim.api.nvim_create_autocmd('BufWritePre', {
-              buffer = bufnr,
-              command = 'EslintFixAll',
-            })
-          end,
-        },
+        eslint = {},
         tailwindcss = {
           settings = {
             tailwindCSS = {
