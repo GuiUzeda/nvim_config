@@ -14,9 +14,25 @@ return {
         flags = {
           debounce_text_changes = 3000, -- Increase debounce to reduce server load
         },
-        on_attach = function(client, _)
+        on_attach = function(client, bufnr)
           -- Ensure diagnostics only update when leaving Insert mode
-          vim.diagnostic.config({ update_in_insert = false }, vim.lsp.diagnostic.get_namespace(client.id))
+          local ns = vim.lsp.diagnostic.get_namespace(client.id)
+          vim.diagnostic.config({ update_in_insert = false }, ns)
+
+          -- Hide diagnostics while in Insert mode to avoid annoyance
+          vim.api.nvim_create_autocmd('InsertEnter', {
+            buffer = bufnr,
+            callback = function()
+              vim.diagnostic.hide(ns, bufnr)
+            end,
+          })
+
+          vim.api.nvim_create_autocmd('InsertLeave', {
+            buffer = bufnr,
+            callback = function()
+              vim.diagnostic.show(ns, bufnr)
+            end,
+          })
         end,
         cmd = {
           'sonarlint-language-server',
