@@ -15,8 +15,18 @@ return {
           debounce_text_changes = 3000, -- Increase debounce to reduce server load
         },
         on_attach = function(client, bufnr)
+          -- Find the namespace for this client reliably
+          local ns = nil
+          for _, namespace in pairs(vim.diagnostic.get_namespaces()) do
+            if namespace.name == 'sonarlint' then
+              ns = _
+              break
+            end
+          end
+
+          if not ns then return end
+
           -- Ensure diagnostics only update when leaving Insert mode
-          local ns = vim.lsp.diagnostic.get_namespace(client.id)
           vim.diagnostic.config({ update_in_insert = false }, ns)
 
           -- Hide diagnostics while in Insert mode to avoid annoyance
@@ -34,6 +44,12 @@ return {
             end,
           })
         end,
+        settings = {
+          sonarlint = {
+            -- Explicitly point to java to avoid 'not found' errors in Mason
+            pathToJava = '/usr/lib/jvm/java-25-openjdk/bin/java',
+          },
+        },
         cmd = {
           'sonarlint-language-server',
           '-stdio',
