@@ -333,11 +333,27 @@ return {
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        ts_ls = { init_options = {
-          preferences = {
-            disableSuggestions = true,
+        ts_ls = {
+          init_options = {
+            preferences = {
+              disableSuggestions = true,
+            },
           },
-        } },
+          on_new_config = function(config, new_root_dir)
+            -- Support Yarn PnP for TypeScript
+            local pnp_js = vim.fs.find({ '.pnp.cjs', '.pnp.js' }, { path = new_root_dir, upward = true })[1]
+            if pnp_js then
+              -- Use the tsserver from the Yarn SDK if it exists
+              local tsserver_path = vim.fs.joinpath(new_root_dir, '.yarn', 'sdks', 'typescript', 'bin', 'tsserver')
+              if vim.fn.executable(tsserver_path) == 1 then
+                config.cmd = { tsserver_path, '--stdio' }
+              else
+                -- Fallback to yarn exec if SDK isn't generated yet
+                config.cmd = { 'yarn', 'exec', 'typescript-language-server', '--stdio' }
+              end
+            end
+          end,
+        },
         sqls = {},
         eslint = {
           on_attach = function(client, bufnr)
@@ -350,6 +366,11 @@ return {
             -- Support Yarn PnP
             local pnp_js = vim.fs.find({ '.pnp.cjs', '.pnp.js' }, { path = new_root_dir, upward = true })[1]
             if pnp_js then
+              -- Use the eslint from the Yarn SDK if it exists
+              local sdk_path = vim.fs.joinpath(new_root_dir, '.yarn', 'sdks', 'eslint', 'bin', 'eslint.js')
+              if vim.fn.executable(sdk_path) == 1 then
+                config.settings.nodePath = vim.fs.joinpath(new_root_dir, '.yarn', 'sdks')
+              end
               config.cmd = { 'yarn', 'exec', 'vscode-eslint-language-server', '--stdio' }
             end
           end,
