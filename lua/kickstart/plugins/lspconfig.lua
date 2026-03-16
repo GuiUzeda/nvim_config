@@ -339,7 +339,11 @@ return {
           },
         } },
         sqls = {},
-        eslint = {},
+        eslint = {
+          settings = {
+            workingDirectory = { mode = 'auto' },
+          },
+        },
         tailwindcss = {
           settings = {
             tailwindCSS = {

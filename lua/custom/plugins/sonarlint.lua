@@ -50,9 +50,15 @@ return {
             pathToJava = '/usr/lib/jvm/java-25-openjdk/bin/java',
           },
         },
+        handlers = {
+          ['sonarlint/hasJoinedIdeLabs'] = function()
+            -- Silence this custom request from the server
+          end,
+        },
         cmd = {
           'sonarlint-language-server',
           '-stdio',
+          '-Xmx2G', -- Increase memory limit to 2GB for better stability
           '-analyzers',
           -- Add paths to the analyzers you need here.
           -- Mason typically installs them in share/sonarlint-analyzers/
