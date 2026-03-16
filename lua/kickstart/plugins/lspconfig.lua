@@ -340,8 +340,22 @@ return {
         } },
         sqls = {},
         eslint = {
+          on_attach = function(client, bufnr)
+            vim.api.nvim_create_autocmd('BufWritePre', {
+              buffer = bufnr,
+              command = 'EslintFixAll',
+            })
+          end,
+          on_new_config = function(config, new_root_dir)
+            -- Support Yarn PnP
+            local pnp_js = vim.fs.find({ '.pnp.cjs', '.pnp.js' }, { path = new_root_dir, upward = true })[1]
+            if pnp_js then
+              config.cmd = { 'yarn', 'exec', 'vscode-eslint-language-server', '--stdio' }
+            end
+          end,
           settings = {
             workingDirectory = { mode = 'auto' },
+            format = true,
           },
         },
         tailwindcss = {
