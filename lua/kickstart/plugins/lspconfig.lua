@@ -380,6 +380,8 @@ return {
         'gofumpt',
         'isort',
         'black',
+        'autoflake',
+        'autopep8',
         'ruff',
         'prettierd',
         'markdownlint',
