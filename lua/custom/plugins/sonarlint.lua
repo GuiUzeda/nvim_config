@@ -17,10 +17,12 @@ return {
         on_attach = function(client, bufnr)
           -- Find the namespace for this client reliably
           local ns = nil
-          for _, namespace in pairs(vim.diagnostic.get_namespaces()) do
-            if namespace.name == 'sonarlint' then
-              ns = _
-              break
+          if vim.diagnostic.get_namespaces then
+            for id, namespace in pairs(vim.diagnostic.get_namespaces()) do
+              if namespace.name == 'sonarlint' then
+                ns = id
+                break
+              end
             end
           end
 
@@ -30,11 +32,23 @@ return {
           vim.diagnostic.config({ update_in_insert = false }, ns)
 
           -- Hide diagnostics while in Insert mode to avoid annoyance
+          local group = vim.api.nvim_create_augroup('SonarLintDiagnostics', { clear = true })
           vim.api.nvim_create_autocmd('InsertEnter', {
             buffer = bufnr,
+            group = group,
             callback = function()
               vim.diagnostic.hide(ns, bufnr)
             end,
+          })
+
+          vim.api.nvim_create_autocmd('InsertLeave', {
+            buffer = bufnr,
+            group = group,
+            callback = function()
+              vim.diagnostic.show(ns, bufnr)
+            end,
+          })
+        end,
           })
 
           vim.api.nvim_create_autocmd('InsertLeave', {
@@ -47,7 +61,7 @@ return {
         settings = {
           sonarlint = {
             -- Explicitly point to java to avoid 'not found' errors in Mason
-            pathToJava = '/usr/lib/jvm/java-25-openjdk/bin/java',
+            pathToJava = "/usr/bin/java",
           },
         },
         handlers = {
@@ -58,7 +72,6 @@ return {
         cmd = {
           'sonarlint-language-server',
           '-stdio',
-          '-Xmx2G', -- Increase memory limit to 2GB for better stability
           '-analyzers',
           -- Add paths to the analyzers you need here.
           -- Mason typically installs them in share/sonarlint-analyzers/

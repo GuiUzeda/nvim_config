@@ -113,49 +113,7 @@ return {
           map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
 
           -- Select Python virtual environment
-          map('grv', function()
-            local clients = vim.lsp.get_clients { name = 'basedpyright', bufnr = event.buf }
-            local client = clients[1]
-            if not client then
-              vim.notify('Basedpyright not attached to this buffer', vim.log.levels.WARN)
-              return
-            end
-
-            local root = client.config.root_dir or vim.fn.getcwd()
-            local found = vim.fs.find({ '.venv', 'venv' }, {
-              path = root,
-              type = 'directory',
-              limit = math.huge,
-            })
-
-            if #found == 0 then
-              vim.notify('No virtual environments found in ' .. root, vim.log.levels.INFO)
-              return
-            end
-
-            vim.ui.select(found, {
-              prompt = 'Select Python Virtual Environment',
-              format_item = function(item)
-                return item:gsub(root .. '/', '')
-              end,
-            }, function(choice)
-              if choice then
-                local python_path = choice .. '/bin/python'
-                local venv_path = vim.fn.fnamemodify(choice, ':h')
-                local venv_name = vim.fn.fnamemodify(choice, ':t')
-
-                client.config.settings.python = client.config.settings.python or {}
-                client.config.settings.python.pythonPath = python_path
-
-                client.config.settings.basedpyright = client.config.settings.basedpyright or {}
-                client.config.settings.basedpyright.venvPath = venv_path
-                client.config.settings.basedpyright.venv = venv_name
-
-                vim.notify('Setting venv to ' .. choice .. ' and restarting LSP...', vim.log.levels.INFO)
-                vim.cmd 'LspRestart basedpyright'
-              end
-            end)
-          end, '[G]oto [V]env Selection')
+          map('grv', require('custom.python').select_venv, '[G]oto [V]env Selection')
 
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
@@ -244,7 +202,9 @@ return {
       --  By default, Neovim doesn't support everything that is in the LSP specification.
       --  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
       --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
-      local capabilities = require('blink.cmp').get_lsp_capabilities()
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
+      capabilities.workspace = capabilities.workspace or {}
+      capabilities.workspace.didChangeWatchedFiles = { dynamicRegistration = true }
 
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -278,7 +238,13 @@ return {
             },
           },
         },
+        ruff = {
+          on_attach = function(client)
+            client.server_capabilities.hoverProvider = false
+          end,
+        },
         basedpyright = {
+          flags = { debounce_text_changes = 500 },
           settings = {
             basedpyright = {
               analysis = {
@@ -286,6 +252,7 @@ return {
                 diagnosticMode = 'openFilesOnly',
                 useLibraryCodeForTypes = true,
                 typeCheckingMode = 'recommended',
+                autoImportCompletions = false,
               },
             },
             python = {
@@ -304,35 +271,13 @@ return {
             return util.find_git_ancestor(fname) or util.path.dirname(fname)
           end,
           before_init = function(_, config)
-            -- Search upwards from the current file's directory to find the closest venv
-            local file_dir = vim.fn.expand '%:p:h'
-            local venv = vim.fs.find({ '.venv', 'venv' }, {
-              path = file_dir,
-              upward = true,
-              type = 'directory',
-            })[1]
-
+            local python_utils = require 'custom.python'
+            local venv = python_utils.find_venv(vim.fn.expand '%:p:h')
             if venv then
-              local python_path = venv .. '/bin/python'
-              local venv_path = vim.fn.fnamemodify(venv, ':h')
-              local venv_name = vim.fn.fnamemodify(venv, ':t')
-
-              config.settings.python = config.settings.python or {}
-              config.settings.python.pythonPath = python_path
-
-              config.settings.basedpyright = config.settings.basedpyright or {}
-              config.settings.basedpyright.venvPath = venv_path
-              config.settings.basedpyright.venv = venv_name
+              python_utils.setup_venv_config(config, venv)
             end
           end,
         },
-        -- rust_analyzer = {},
-        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
         ts_ls = {
           init_options = {
             preferences = {
@@ -384,8 +329,8 @@ return {
             tailwindCSS = {
               experimental = {
                 classRegex = {
-                  { 'cva\\(([^)]*)\\)', '["\'`]([^"\'`]*).*?["\'`]' },
-                  { 'cx\\(([^)]*)\\)', "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+                  { 'cva\(([^)]*)\)', '["\'`]([^"\'\`]*).*?["\'\`]' },
+                  { 'cx\(([^)]*)\)', "(?:'|\"|`)([^']*)(?:'|\"|`)" },
                 },
               },
             },
@@ -393,11 +338,7 @@ return {
         },
         dockerls = {},
         docker_compose_language_service = {},
-        -- ts_ls = { ... },
         lua_ls = {
-          -- cmd = { ... },
-          -- filetypes = { ... },
-          -- capabilities = {},
           settings = {
             Lua = {
               completion = {
@@ -409,15 +350,10 @@ return {
               },
               workspace = {
                 checkThirdParty = false,
-                -- Tells lua_ls where to find Neovim runtime files
                 library = {
                   vim.env.VIMRUNTIME,
-                  -- Depending on the usage, you might want to add more paths here.
-                  -- "${3rd}/luv/library"
                 },
               },
-              -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              -- diagnostics = { disable = { 'missing-fields' } },
             },
           },
         },
