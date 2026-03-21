@@ -26,7 +26,9 @@ return {
             end
           end
 
-          if not ns then return end
+          if not ns then
+            return
+          end
 
           -- Ensure diagnostics only update when leaving Insert mode
           vim.diagnostic.config({ update_in_insert = false }, ns)
@@ -49,19 +51,10 @@ return {
             end,
           })
         end,
-          })
-
-          vim.api.nvim_create_autocmd('InsertLeave', {
-            buffer = bufnr,
-            callback = function()
-              vim.diagnostic.show(ns, bufnr)
-            end,
-          })
-        end,
         settings = {
           sonarlint = {
             -- Explicitly point to java to avoid 'not found' errors in Mason
-            pathToJava = "/usr/bin/java",
+            pathToJava = '/usr/bin/java',
           },
         },
         handlers = {
