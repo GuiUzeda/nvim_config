@@ -66,7 +66,8 @@ return {
           'sonarlint-language-server',
           '-stdio',
           '-analyzers',
-          -- Add paths to the analyzers you need here.
+          -- Add JVM flags to suppress annoying sun.misc.Unsafe warnings
+          '-J--add-opens=java.base/sun.misc=ALL-UNNAMED',
           -- Mason typically installs them in share/sonarlint-analyzers/
           mason_root .. '/share/sonarlint-analyzers/sonarjava.jar',
           mason_root .. '/share/sonarlint-analyzers/sonarpython.jar',
