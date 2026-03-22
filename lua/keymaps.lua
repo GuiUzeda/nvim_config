@@ -12,7 +12,7 @@ vim.keymap.set('n', '<leader>ow', require('custom.obsidian_utils').new_note_adva
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+-- Mapping <leader>q moved to lua/custom/plugins/trouble.lua for better integration
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
