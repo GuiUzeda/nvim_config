@@ -60,9 +60,10 @@ return {
       -- Document existing key chains
       spec = {
         { '<leader>b', group = '[B]uffer' },
+        { '<leader>c', group = '[C]ode' },
         { '<leader>d', group = '[D]ebug' },
         { '<leader>e', group = '[E]xplorer' },
-        { '<leader>f', group = '[F]ind/Format' },
+        { '<leader>f', group = '[F]ind' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
         { '<leader>m', group = '[M]arkdown' },
         { '<leader>o', group = '[O]bsidian' },

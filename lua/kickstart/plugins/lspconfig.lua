@@ -291,10 +291,7 @@ return {
         sqls = {},
         eslint = {
           on_attach = function(client, bufnr)
-            vim.api.nvim_create_autocmd('BufWritePre', {
-              buffer = bufnr,
-              command = 'EslintFixAll',
-            })
+            vim.keymap.set('n', '<leader>ce', '<cmd>EslintFixAll<cr>', { buffer = bufnr, desc = '[C]ode [E]slint Fix' })
           end,
           on_new_config = function(config, new_root_dir)
             -- Support Yarn PnP

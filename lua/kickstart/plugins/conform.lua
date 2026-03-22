@@ -1,19 +1,20 @@
 return {
   { -- Autoformat
     'stevearc/conform.nvim',
-    event = { 'BufWritePre' },
+    event = { 'LspAttach' }, -- Load when LSP attaches instead of on save
     cmd = { 'ConformInfo' },
     keys = {
       {
-        '<leader>f',
+        '<leader>cf',
         function()
           require('conform').format { async = true, lsp_format = 'fallback' }
         end,
-        mode = '',
-        desc = '[F]ormat buffer',
+        mode = 'n',
+        desc = '[C]ode [F]ormat buffer',
       },
     },
     opts = {
+      format_on_save = false, -- Explicitly disable auto-format on save
       notify_on_error = true,
       formatters_by_ft = {
         lua = { 'stylua' },
