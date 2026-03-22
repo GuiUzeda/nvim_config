@@ -3,6 +3,6 @@ return {
   config = true,
   cmd = "Glow",
   keys = {
-    { "<leader>mp", "<cmd>Glow<cr>", desc = "[M]arkdown [P]review (Glow)" },
+    { '<leader>mp', '<cmd>Glow<cr>', desc = '[M]arkdown [P]review (Glow)' },
   },
 }
