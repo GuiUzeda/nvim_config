@@ -30,6 +30,16 @@ return {
       'saghen/blink.cmp',
     },
     config = function()
+      -- Custom Rename Handler to automatically save buffers after rename
+      local lsp_rename_handler = vim.lsp.handlers['textDocument/rename']
+      vim.lsp.handlers['textDocument/rename'] = function(err, result, ctx, config)
+        lsp_rename_handler(err, result, ctx, config)
+        if not err and result then
+          vim.cmd 'silent! wa'
+          vim.notify('Renamed and saved all buffers', vim.log.levels.INFO)
+        end
+      end
+
       -- Brief aside: **What is LSP?**
       --
       -- LSP is an initialism you've probably heard, but might not understand what it is.
