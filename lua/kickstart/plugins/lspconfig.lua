@@ -249,10 +249,11 @@ return {
             basedpyright = {
               analysis = {
                 autoSearchPaths = true,
-                diagnosticMode = 'openFilesOnly',
+                diagnosticMode = 'workspace',
                 useLibraryCodeForTypes = true,
                 typeCheckingMode = 'recommended',
-                autoImportCompletions = false,
+                autoImportCompletions = true,
+                userFileWatching = true,
               },
             },
             python = {
@@ -268,7 +269,7 @@ return {
             if root then
               return root
             end
-            return util.find_git_ancestor(fname) or util.path.dirname(fname)
+            return util.find_git_ancestor(fname) or vim.uv.cwd()
           end,
           before_init = function(_, config)
             local python_utils = require 'custom.python'
