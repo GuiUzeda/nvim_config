@@ -18,6 +18,25 @@ vim.keymap.set('n', '<leader>wv', '<C-w>v', { desc = '[W]indow Split [V]ertical'
 vim.keymap.set('n', '<leader>ws', '<C-w>s', { desc = '[W]indow Split [S]horizontal' })
 vim.keymap.set('n', '<leader>wc', '<C-w>c', { desc = '[W]indow [C]lose' })
 
+-- Buffer management
+vim.keymap.set('n', '<leader>bn', '<cmd>bnext<cr>', { desc = '[B]uffer [N]ext' })
+vim.keymap.set('n', '<leader>bp', '<cmd>bprevious<cr>', { desc = '[B]uffer [P]revious' })
+vim.keymap.set('n', '<leader>bd', '<cmd>bdelete<cr>', { desc = '[B]uffer [D]elete' })
+vim.keymap.set('n', '<leader>bb', '<cmd>Telescope buffers<cr>', { desc = '[B]uffer [B]rowse' })
+
+-- Move lines
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move line down' })
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move line up' })
+
+-- Better indenting (stay in visual mode)
+vim.keymap.set('v', '<', '<gv')
+vim.keymap.set('v', '>', '>gv')
+
+-- Toggles
+vim.keymap.set('n', '<leader>tw', '<cmd>set wrap!<cr>', { desc = '[T]oggle [W]rap' })
+vim.keymap.set('n', '<leader>ts', '<cmd>set spell!<cr>', { desc = '[T]oggle [S]pell' })
+vim.keymap.set('n', '<leader>tn', '<cmd>set relativenumber!<cr>', { desc = '[T]oggle Relative [N]umber' })
+
 -- Diagnostic keymaps
 -- Mapping <leader>q moved to lua/custom/plugins/trouble.lua for better integration
 

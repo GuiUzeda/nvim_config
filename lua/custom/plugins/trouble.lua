@@ -66,6 +66,20 @@ return {
       end,
       desc = 'Next Trouble/Quickfix Item',
     },
+    {
+      '[d',
+      function()
+        require('trouble').prev { mode = 'diagnostics', skip_groups = true, jump = true }
+      end,
+      desc = 'Previous Diagnostic (Trouble)',
+    },
+    {
+      ']d',
+      function()
+        require('trouble').next { mode = 'diagnostics', skip_groups = true, jump = true }
+      end,
+      desc = 'Next Diagnostic (Trouble)',
+    },
   },
   opts = {},
 }

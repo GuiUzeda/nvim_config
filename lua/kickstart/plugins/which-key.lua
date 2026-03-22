@@ -69,6 +69,8 @@ return {
         { '<leader>o', group = '[O]bsidian' },
         { '<leader>e', group = '[E]xplorer' },
         { '<leader>x', group = 'Trouble/Diagnostics' },
+        { '<leader>b', group = '[B]uffer' },
+        { '<leader>w', group = '[W]indow' },
       },
     },
   },
