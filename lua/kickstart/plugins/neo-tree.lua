@@ -13,6 +13,9 @@ return {
   lazy = false,
   keys = {
     { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
+    { '<leader>ee', '<cmd>Neotree toggle<cr>', desc = 'Explorer NeoTree (Toggle)' },
+    { '<leader>ef', '<cmd>Neotree focus<cr>', desc = 'Explorer NeoTree (Focus)' },
+    { '<leader>er', '<cmd>Neotree reveal<cr>', desc = 'Explorer NeoTree (Reveal)' },
   },
   opts = {
     filesystem = {
