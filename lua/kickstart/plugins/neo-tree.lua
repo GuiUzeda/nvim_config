@@ -48,6 +48,18 @@ return {
           })
         end,
       },
+      {
+        event = 'file_moved',
+        handler = function(data)
+          require('lsp-file-operations').on_file_moved(data.source, data.destination)
+        end,
+      },
+      {
+        event = 'file_renamed',
+        handler = function(data)
+          require('lsp-file-operations').on_file_renamed(data.source, data.destination)
+        end,
+      },
     },
   },
 }
