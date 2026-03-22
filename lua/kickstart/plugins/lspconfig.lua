@@ -214,6 +214,9 @@ return {
               },
               staticcheck = true,
               gofumpt = true,
+              -- Enable workspace-wide diagnostics
+              directoryFilters = { '-.git', '-.vscode', '-.idea', '-.vscode-test', '-node_modules' },
+              buildFlags = { '-tags=all' },
               hints = {
                 assignVariableTypes = true,
                 compositeLiteralFields = true,
@@ -237,7 +240,7 @@ return {
             basedpyright = {
               analysis = {
                 autoSearchPaths = true,
-                diagnosticMode = 'workspace',
+                diagnosticMode = 'workspace', -- Workspace-wide diagnostics
                 useLibraryCodeForTypes = true,
                 typeCheckingMode = 'recommended',
                 autoImportCompletions = true,
@@ -327,6 +330,9 @@ return {
         lua_ls = {
           settings = {
             Lua = {
+              diagnostics = {
+                workspaceDelay = 3000, -- Delay for workspace diagnostics to avoid CPU spikes
+              },
               completion = {
                 callSnippet = 'Replace',
                 keywordSnippet = 'Replace',

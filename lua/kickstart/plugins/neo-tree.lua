@@ -18,6 +18,10 @@ return {
     { '<leader>er', '<cmd>Neotree reveal<cr>', desc = 'Explorer NeoTree (Reveal)' },
   },
   opts = {
+    diagnostics = {
+      enable = true,
+      show_name = true,
+    },
     filesystem = {
       window = {
         mappings = {
