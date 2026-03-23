@@ -66,6 +66,11 @@ vim.o.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.o.scrolloff = 10
 
+-- Ensure the command line has its own space to prevent overlap
+vim.o.cmdheight = 1
+-- Use a global statusline for better stability in tmux
+vim.o.laststatus = 3
+
 -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
