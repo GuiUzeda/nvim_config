@@ -250,17 +250,17 @@ return {
             basedpyright = {
               analysis = {
                 autoSearchPaths = true,
-                diagnosticMode = 'workspace', -- Workspace-wide diagnostics
+                diagnosticMode = 'openFilesOnly', -- Changed from 'workspace'
                 useLibraryCodeForTypes = true,
                 typeCheckingMode = 'recommended',
                 autoImportCompletions = true,
-                userFileWatching = true,
+                userFileWatching = true, -- Re-enabled to detect new/moved files
               },
             },
             python = {
               analysis = {
-                indexing = true,
-                userFileWatching = true,
+                indexing = false, -- Disabled for performance
+                userFileWatching = true, -- Re-enabled to detect new/moved files
               },
             },
           },

@@ -18,8 +18,8 @@ return {
       notify_on_error = true,
       formatters_by_ft = {
         lua = { 'stylua' },
-        -- Conform will run these sequentially as per your requested commands
-        python = { 'autoflake', 'autopep8', 'black', 'isort' },
+        -- Use ruff for faster python formatting and organizing imports
+        python = { 'ruff_organize_imports', 'ruff_format' },
         go = { 'goimports', 'gofumpt' },
         --
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
