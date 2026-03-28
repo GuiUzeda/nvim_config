@@ -18,6 +18,10 @@ vim.keymap.set('n', '<leader>wv', '<C-w>v', { desc = '[W]indow Split [V]ertical'
 vim.keymap.set('n', '<leader>ws', '<C-w>s', { desc = '[W]indow Split [S]horizontal' })
 vim.keymap.set('n', '<leader>wc', '<C-w>c', { desc = '[W]indow [C]lose' })
 
+-- Tmux-style splits (if C-a is your prefix)
+vim.keymap.set('n', '<C-a>\\', '<C-w>v', { desc = 'Window Split Vertical (Tmux-style)' })
+vim.keymap.set('n', '<C-a>-', '<C-w>s', { desc = 'Window Split Horizontal (Tmux-style)' })
+
 -- Buffer management
 vim.keymap.set('n', '<leader>bn', '<cmd>bnext<cr>', { desc = '[B]uffer [N]ext' })
 vim.keymap.set('n', '<leader>bp', '<cmd>bprevious<cr>', { desc = '[B]uffer [P]revious' })
