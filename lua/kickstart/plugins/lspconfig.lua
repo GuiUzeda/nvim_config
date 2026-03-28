@@ -183,6 +183,7 @@ return {
       -- See :help vim.diagnostic.Opts
       vim.diagnostic.config {
         severity_sort = true,
+        update_in_insert = false, -- Explicitly disable to stop updates on every keystroke
         float = { border = 'rounded', source = 'if_many' },
         underline = true, -- Enable underlines for all diagnostic levels
         signs = vim.g.have_nerd_font and {
@@ -255,7 +256,7 @@ return {
           end,
         },
         basedpyright = {
-          flags = { debounce_text_changes = 500 },
+          flags = { debounce_text_changes = 2000 },
           settings = {
             basedpyright = {
               analysis = {
