@@ -40,17 +40,6 @@ return {
         end,
       },
       {
-        event = 'neo_tree_window_after_open',
-        handler = function()
-          vim.api.nvim_create_autocmd('WinLeave', {
-            once = true,
-            callback = function()
-              vim.cmd 'Neotree close'
-            end,
-          })
-        end,
-      },
-      {
         event = 'file_moved',
         handler = function(data)
           require('lsp-file-operations').on_file_moved(data.source, data.destination)
