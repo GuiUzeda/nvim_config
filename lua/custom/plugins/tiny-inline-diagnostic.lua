@@ -14,9 +14,11 @@ return {
         use_icons = true,
         add_missing_linebreak = true,
         -- This ensures the diagnostic doesn't collide with other virtual text
-        virt_texts_line_pos = 'right_align',
+        virt_texts_line_pos = 'between_statements', -- Changed to make it more prominent
         -- Highlight the entire line like Error Lens
-        softwrap = 15, -- Allow some wrapping but keep it neat
+        softwrap = 30, -- Increased for better readability of long messages
+        multiple_diag_under_cursor = true, -- Show all diagnostics under cursor
+        multilines = true, -- Allow multiple lines for long errors
       },
     }
 

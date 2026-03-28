@@ -18,6 +18,8 @@ return {
     { '<leader>er', '<cmd>Neotree reveal<cr>', desc = 'Explorer NeoTree (Reveal)' },
   },
   opts = {
+    log_level = 'debug',
+    log_to_file = true,
     diagnostics = {
       enable = true,
       show_name = true,
