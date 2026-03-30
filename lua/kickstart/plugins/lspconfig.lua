@@ -265,16 +265,8 @@ return {
                 useLibraryCodeForTypes = true,
                 typeCheckingMode = 'recommended',
                 -- Chill "Any" checks to reduce noise
-                reportAny = false,
-                reportExplicitAny = false,
-                reportMissingParameterType = false,
-                reportMissingTypeArgument = false,
-                reportUnannotatedClassAttribute = false,
-                reportUnknownArgumentType = false,
-                reportUnknownLambdaType = false,
-                reportUnknownMemberType = false,
-                reportUnknownParameterType = false,
-                reportUnknownVariableType = false,
+                reportAny = 'none',
+                reportExplicitAny = 'none',
                 autoImportCompletions = true,
                 userFileWatching = true, -- Re-enabled to detect new/moved files
               },
