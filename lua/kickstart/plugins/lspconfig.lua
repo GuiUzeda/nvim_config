@@ -265,14 +265,18 @@ return {
                 useLibraryCodeForTypes = true,
                 typeCheckingMode = 'recommended',
                 -- Chill "Any" checks to reduce noise
-                reportAny = 'none',
-                reportExplicitAny = 'none',
+                reportAny = false,
+                reportExplicitAny = false,
+                reportImplicitAny = false,
                 autoImportCompletions = true,
                 userFileWatching = true, -- Re-enabled to detect new/moved files
               },
             },
             python = {
               analysis = {
+                reportAny = false,
+                reportExplicitAny = false,
+                reportImplicitAny = false,
                 indexing = false, -- Disabled for performance
                 userFileWatching = true, -- Re-enabled to detect new/moved files
               },
