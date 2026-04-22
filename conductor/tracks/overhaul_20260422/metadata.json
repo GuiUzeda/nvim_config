@@ -1,0 +1,8 @@
+{
+  "track_id": "overhaul_20260422",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-04-22T14:30:00Z",
+  "updated_at": "2026-04-22T14:30:00Z",
+  "description": "Overhaul to Neovim 0.12 Native standards"
+}
