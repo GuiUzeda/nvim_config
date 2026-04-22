@@ -11,9 +11,14 @@ local plugins = {
   -- Telescope
   'gh:nvim-lua/plenary.nvim',
   'gh:nvim-telescope/telescope.nvim',
+  'gh:nvim-telescope/telescope-fzf-native.nvim',
+  'gh:nvim-telescope/telescope-ui-select.nvim',
   
   -- Completion & LSP
   'gh:saghen/blink.cmp',
+  'gh:L3MON4D3/LuaSnip',
+  'gh:rafamadriz/friendly-snippets',
+  'gh:folke/lazydev.nvim',
   'gh:neovim/nvim-lspconfig',
   'gh:mason-org/mason.nvim',
   'gh:mason-org/mason-lspconfig.nvim',
@@ -27,6 +32,8 @@ local plugins = {
   'gh:nvim-lualine/lualine.nvim',
   'gh:rcarriga/nvim-notify',
   'gh:stevearc/dressing.nvim',
+  'gh:folke/noice.nvim',
+  'gh:goolord/alpha-nvim',
   
   -- PKM
   'gh:epwalsh/obsidian.nvim',
@@ -36,10 +43,17 @@ local plugins = {
   'gh:mfussenegger/nvim-lint',
   'gh:windwp/nvim-autopairs',
   'gh:nvim-neo-tree/neo-tree.nvim',
+  'gh:antosha417/nvim-lsp-file-operations',
   'gh:MunifTanjim/nui.nvim',
 }
 
 -- Add all plugins
 vim.pack.add(plugins)
 
--- After adding, we can proceed to configure them (either here or in separate modules)
+-- Automatically load all configuration files in lua/config/
+local config_path = vim.fn.stdpath('config') .. '/lua/config'
+for _, file in ipairs(vim.fn.readdir(config_path)) do
+  if file:match('%.lua$') then
+    require('config.' .. file:gsub('%.lua$', ''))
+  end
+end
