@@ -4,5 +4,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Overhaul to Neovim 0.12 Native standards**
+- [~] **Track: Overhaul to Neovim 0.12 Native standards**
   *Link: [./tracks/overhaul_20260422/](./tracks/overhaul_20260422/)*

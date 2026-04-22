@@ -20,6 +20,6 @@
 - [x] Task: Conductor - User Manual Verification 'LSP and Tree-sitter Modernization' (Protocol in workflow.md) (12309d6)
 
 ## Phase 4: Decommissioning and Cleanup
-- [ ] Task: Remove `lua/kickstart/`, `lua/custom/`, and `lazy` bootstrap files
+- [~] Task: Remove `lua/kickstart/`, `lua/custom/`, and `lazy` bootstrap files
 - [ ] Task: Final performance profiling and startup optimization
 - [ ] Task: Conductor - User Manual Verification 'Finalization and Cleanup' (Protocol in workflow.md)
