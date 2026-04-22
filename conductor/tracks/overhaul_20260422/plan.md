@@ -13,11 +13,11 @@
 - [x] Task: Consolidate `init.lua` to require new modules and enable `ui2` (402cbbc)
 - [x] Task: Conductor - User Manual Verification 'Structural Overhaul' (Protocol in workflow.md) (7f49b91)
 
-## Phase 3: LSP and Tree-sitter Modernization
-- [~] Task: Transition to native Tree-sitter management and parser installation (Partially complete: plugin removed)
-- [ ] Task: Implement native LSP configuration in `lua/lsp/init.lua` using 0.12 APIs
-- [ ] Task: Verify specialized workflows (Python, Go, Obsidian) in the new structure
-- [ ] Task: Conductor - User Manual Verification 'LSP and Tree-sitter Modernization' (Protocol in workflow.md)
+## Phase 3: LSP and Tree-sitter Modernization [checkpoint: 12309d6]
+- [x] Task: Transition to native Tree-sitter management and parser installation (Partially complete: plugin removed)
+- [x] Task: Implement native LSP configuration in `lua/lsp/init.lua` using 0.12 APIs (32dfb05)
+- [x] Task: Verify specialized workflows (Python, Go, Obsidian) in the new structure
+- [x] Task: Conductor - User Manual Verification 'LSP and Tree-sitter Modernization' (Protocol in workflow.md) (12309d6)
 
 ## Phase 4: Decommissioning and Cleanup
 - [ ] Task: Remove `lua/kickstart/`, `lua/custom/`, and `lazy` bootstrap files
