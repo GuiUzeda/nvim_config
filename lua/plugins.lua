@@ -25,6 +25,8 @@ local plugins = {
   'gh:WhoIsSethDaniel/mason-tool-installer.nvim',
   
   -- UI & Aesthetics
+  'gh:uloco/bluloco.nvim',
+  'gh:rktjmp/lush.nvim',
   'gh:folke/tokyonight.nvim',
   'gh:folke/todo-comments.nvim',
   'gh:echasnovski/mini.nvim',
@@ -37,6 +39,9 @@ local plugins = {
   
   -- PKM
   'gh:epwalsh/obsidian.nvim',
+  
+  -- Navigation & Multiplexer
+  'gh:mrjones2014/smart-splits.nvim',
   
   -- Editing
   'gh:stevearc/conform.nvim',
