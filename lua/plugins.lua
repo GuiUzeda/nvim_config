@@ -34,6 +34,7 @@ local plugins = {
   'https://github.com/rcarriga/nvim-notify',
   'https://github.com/stevearc/dressing.nvim',
   'https://github.com/folke/trouble.nvim',
+  'https://github.com/rachartier/tiny-inline-diagnostic.nvim',
   'https://github.com/goolord/alpha-nvim',
   
   -- PKM
@@ -66,7 +67,8 @@ end
 local configs = {
   'ui', 'bluloco', 'alpha', 'lualine', 'which-key', 'telescope',
   'blink', 'conform', 'gitsigns', 'todo-comments', 'mini',
-  'neo-tree', 'autopairs', 'obsidian', 'smart-splits', 'trouble'
+  'neo-tree', 'autopairs', 'obsidian', 'smart-splits', 'trouble',
+  'tiny-inline-diagnostic'
 }
 
 for _, name in ipairs(configs) do
