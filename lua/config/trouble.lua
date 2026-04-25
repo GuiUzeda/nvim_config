@@ -1,18 +1,20 @@
 -- lua/config/trouble.lua
 require('trouble').setup()
 
-local function tmap(keys, cmd, desc)
-  vim.keymap.set('n', keys, cmd, { desc = desc })
+local function map(keys, cmd, desc)
+  vim.keymap.set('n', keys, cmd, { desc = 'Trouble: ' .. desc })
 end
 
-tmap('<leader>xx', '<cmd>Trouble diagnostics toggle<cr>', 'Diagnostics (Trouble)')
-tmap('<leader>xX', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', 'Buffer Diagnostics (Trouble)')
-tmap('<leader>q', '<cmd>Trouble diagnostics toggle<cr>', 'Diagnostics (Trouble)')
-tmap('<leader>cs', '<cmd>Trouble symbols toggle focus=false<cr>', 'Symbols (Trouble)')
-tmap('<leader>cl', '<cmd>Trouble lsp toggle focus=false win.position=right<cr>', 'LSP Definitions / references / ... (Trouble)')
-tmap('<leader>xL', '<cmd>Trouble loclist toggle<cr>', 'Location List (Trouble)')
-tmap('<leader>xQ', '<cmd>Trouble qflist toggle<cr>', 'Quickfix List (Trouble)')
+-- [X] Diagnostics/Trouble Group
+map('<leader>xx', '<cmd>Trouble diagnostics toggle<cr>', 'Diagnostics')
+map('<leader>xX', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', 'Buffer Diagnostics')
+map('<leader>q', '<cmd>Trouble qflist toggle<cr>', 'Quickfix List')
+map('<leader>cs', '<cmd>Trouble symbols toggle focus=false<cr>', 'Symbols')
+map('<leader>cl', '<cmd>Trouble lsp toggle focus=false win.position=right<cr>', 'LSP List')
+map('<leader>xL', '<cmd>Trouble loclist toggle<cr>', 'Location List')
+map('<leader>xQ', '<cmd>Trouble qflist toggle<cr>', 'Quickfix List')
 
+-- Diagnostic Jump Mappings
 vim.keymap.set('n', '[q', function()
   if require('trouble').is_open() then
     require('trouble').prev { skip_groups = true, jump = true }

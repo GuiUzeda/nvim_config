@@ -15,8 +15,6 @@ local plugins = {
   
   -- Completion & LSP
   'https://github.com/saghen/blink.cmp',
-  'https://github.com/L3MON4D3/LuaSnip',
-  'https://github.com/rafamadriz/friendly-snippets',
   'https://github.com/folke/lazydev.nvim',
   'https://github.com/neovim/nvim-lspconfig',
   'https://github.com/mason-org/mason.nvim',
@@ -64,7 +62,7 @@ local function safe_require(module)
   end
 end
 
--- Load configurations in a logical order
+-- Load configurations in a logical order using vim.iter
 local configs = {
   'ui', 'bluloco', 'alpha', 'lualine', 'which-key', 'telescope',
   'blink', 'conform', 'gitsigns', 'todo-comments', 'mini',
@@ -72,6 +70,4 @@ local configs = {
   'tiny-inline-diagnostic'
 }
 
-for _, name in ipairs(configs) do
-  safe_require(name)
-end
+vim.iter(configs):each(safe_require)

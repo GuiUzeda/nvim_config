@@ -25,3 +25,14 @@ require('obsidian').setup {
     if title ~= nil then return title else return tostring(os.time()) end
   end,
 }
+
+-- [[ Obsidian Keymaps ]]
+local function map(lhs, rhs, desc)
+  vim.keymap.set('n', lhs, rhs, { desc = '[O]bsidian ' .. desc })
+end
+
+map('<leader>on', '<cmd>ObsidianQuickSwitch<cr>', 'Notes (Switch)')
+map('<leader>os', '<cmd>ObsidianSearch<cr>', 'Search')
+map('<leader>ot', '<cmd>ObsidianToday<cr>', 'Today')
+map('<leader>oc', '<cmd>ObsidianCapture<cr>', 'Capture')
+map('<leader>ol', '<cmd>ObsidianLinks<cr>', 'Links')

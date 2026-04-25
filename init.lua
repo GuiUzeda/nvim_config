@@ -1,27 +1,33 @@
 -- init.lua
 -- Neovim 0.12 Native Overhaul
 
--- Enable the experimental Lua loader for faster startup
+-- 1. Set leader keys (MUST be first)
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+vim.g.have_nerd_font = true
+
+-- 2. Enable the experimental Lua loader
 if vim.loader then
   vim.loader.enable()
 end
 
--- Enable native ui2 engine
+-- 3. Enable native ui2 engine (Experimental 0.12 feature)
 pcall(function()
   require('vim._core.ui2').enable()
 end)
 
--- Set leader keys
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+-- 4. Enable built-in plugins
+vim.cmd('packadd nvim.undotree')
+vim.cmd('packadd nvim.difftool')
 
--- Global settings
-vim.g.have_nerd_font = true
-
--- Load modules
+-- 5. Load options and keymaps
 require('options')
 require('keymaps')
-require('plugins') -- This will also load lua/config/*.lua
+
+-- 5. Load plugins and their configurations
+require('plugins')
+
+-- 6. Load LSP configuration
 require('lsp')
 
 -- The line beneath this is called `modeline`. See `:help modeline`
