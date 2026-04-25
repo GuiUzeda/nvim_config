@@ -39,6 +39,7 @@ local plugins = {
   
   -- PKM
   'https://github.com/epwalsh/obsidian.nvim',
+  'https://github.com/okuuva/auto-save.nvim',
   
   -- Navigation & Multiplexer
   'https://github.com/mrjones2014/smart-splits.nvim',
@@ -67,7 +68,7 @@ end
 local configs = {
   'ui', 'bluloco', 'alpha', 'lualine', 'which-key', 'telescope',
   'blink', 'conform', 'gitsigns', 'todo-comments', 'mini',
-  'neo-tree', 'autopairs', 'obsidian', 'smart-splits', 'trouble',
+  'neo-tree', 'autopairs', 'obsidian', 'autosave', 'smart-splits', 'trouble',
   'tiny-inline-diagnostic'
 }
 
